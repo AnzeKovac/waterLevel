@@ -91,8 +91,6 @@ class NotificationHub {
 	} 
 }
 $hub = new NotificationHub("Endpoint=sb://watelevel.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=ccFdd8pOy8DkLvUmvCEu4zcGRBrdicjPXKmhtYH9cF8=", "waterlevel"); 
-Vrednost meritve <input type="text" name="value"><br>
-Datum: <input type="text" name="date"><br>
 $measurementValue = $_POST["value"];
 $measurementDate = $_POST["date"];
 $toast = "
