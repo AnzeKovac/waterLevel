@@ -91,15 +91,19 @@ class NotificationHub {
 	} 
 }
 $hub = new NotificationHub("Endpoint=sb://watelevel.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=ccFdd8pOy8DkLvUmvCEu4zcGRBrdicjPXKmhtYH9cF8=", "waterlevel"); 
-$toast = '
+Vrednost meritve <input type="text" name="value"><br>
+Datum: <input type="text" name="date"><br>
+$measurementValue = $_POST["value"];
+$measurementDate = $_POST["date"];
+$toast = "
 		<tile>
   <visual>
-    <binding template="TileSquareBlock">
-      <text id="1">192</text>
-      <text id="2">11.01 14:11</text>
+    <binding template='TileSquareBlock'>
+      <text id='1'>".$measurementValue."</text>
+      <text id='2'>".$measurementDate."</text>
     </binding>  
   </visual>
-</tile>';
+</tile>";
 
 $notification = new Notification("windows", $toast);
 $notification->headers[] = 'X-WNS-Type: wns/tile';
