@@ -90,20 +90,42 @@ class NotificationHub {
 		echo $response;
 	} 
 }
-$hub = new NotificationHub("Endpoint=sb://watelevel.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=ccFdd8pOy8DkLvUmvCEu4zcGRBrdicjPXKmhtYH9cF8=", "waterlevel"); 
+
+#send tile update - Pinned tile.
+$tile = new NotificationHub("Endpoint=sb://watelevel.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=ccFdd8pOy8DkLvUmvCEu4zcGRBrdicjPXKmhtYH9cF8=", "waterlevel"); 
 $measurementValue = $_POST["value"];
 $measurementDate = $_POST["date"];
-$toast = "
+$tileXml = "
 		<tile>
-  <visual>
-    <binding template='TileSquareBlock'>
-      <text id='1'>".$measurementValue."</text>
-      <text id='2'>".$measurementDate."</text>
-    </binding>  
-  </visual>
-</tile>";
+  			<visual>
+   				<binding template='TileSquareBlock'>
+     				<text id='1'>".$measurementValue."</text>
+      			 	<text id='2'>".$measurementDate."</text>
+    			</binding>  
+  			</visual>
+		</tile>";
 
-$notification = new Notification("windows", $toast);
-$notification->headers[] = 'X-WNS-Type: wns/tile';
-$hub->sendNotification($notification);
+$tileNotification = new Notification("windows", $tileXml);
+$tileNotification->headers[] = 'X-WNS-Type: wns/tile';
+$tile->sendNotification($tileNotification);
+
+#send Toast update
+$toast = new NotificationHub("Endpoint=sb://watelevel.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=ccFdd8pOy8DkLvUmvCEu4zcGRBrdicjPXKmhtYH9cF8=", "waterlevel"); 
+$toastXml = "
+		<toast>
+    		<visual>
+        		<binding template='ToastText02'>
+            		<text id='1'>Dodana nova meritev!</text>
+            		<text id='2'>".$measurementValue."cm ob ".$measurementDate."</text>
+        		</binding>  
+    		</visual>
+	</toast>";
+
+$toastNotification = new Notification("windows", $toastXml);
+$toastNotification->headers[] = 'X-WNS-Type: wns/toast';
+$toast->sendNotification($toastNotification);
+
+
+#badge update ?
+
 ?>
