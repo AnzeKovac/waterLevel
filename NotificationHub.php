@@ -92,16 +92,16 @@ class NotificationHub {
 }
 $hub = new NotificationHub("Endpoint=sb://watelevel.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=ccFdd8pOy8DkLvUmvCEu4zcGRBrdicjPXKmhtYH9cF8=", "waterlevel"); 
 $toast = '
-		<toast>
-    	<visual>
-        <binding template="ToastImageAndText02">
-            <image id="1" src="image1" alt="image1"/>
-            <text id="1">Dodana nova meritev!</text>
-            <text id="2">Does this work by itself ?</text>
-        </binding>  
-    </visual>
-</toast>';
+		<tile> 
+<visual version="2"> 
+<binding template="TileSquare150x150Text02" fallback="TileSquareText02"> 
+<text id="1">Text Field 1 (larger text)</text> 
+<text id="2">Text Field 2</text> 
+</binding> 
+</visual> 
+</tile>';
+
 $notification = new Notification("windows", $toast);
-$notification->headers[] = 'X-WNS-Type: wns/toast';
+$notification->headers[] = 'X-WNS-Type: wns/tile';
 $hub->sendNotification($notification);
 ?>
