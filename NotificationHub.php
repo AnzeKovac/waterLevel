@@ -95,7 +95,7 @@ $toast = '
 		<tile>
   <visual>
     <binding template="TileSquareBlock">
-      <text id="1">192cm</text>
+      <text id="1">192</text>
       <text id="2">11.01 14:11</text>
     </binding>  
   </visual>
