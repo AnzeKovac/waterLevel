@@ -1,0 +1,78 @@
+Naloga 5
+Object<>T;
+count;
+fun enqueue(element)
+{
+	if(count==t.length)
+	 resize();
+	 t[count++]=element
+} // O(1)
+
+fun dequeue()
+	if(count==0)
+		return null;
+	int min=0
+	for(i=0;i<count>;i++)
+	{
+		if(t[i]< o)
+		{
+		o=t[i];
+		min=i;
+		}
+		t[min]=t[--count];
+		t[count-1]=null;
+	} // O(n)
+
+
+Naloga 6
+fun enqueue(element)
+resize(t) //dodamo eno mesto;
+for(i=count;i>=0;i--)
+{
+	t[i+1] = t(i);
+	if(t[i-1]<element)
+	{
+	 t(i)=elent;
+	}
+} // vrivamo od zadaj in kjer je prav ga vrinemo. Padajoče vrednosti O(n)
+
+fun dequeue()
+{
+	return t[count-1];
+	t[count-1]=null;
+	count--;
+} // vzamemo zadnji element O(1)
+
+
+//Naloga 7
+class clen
+{
+	val;
+	next;
+}
+
+Clen[] t; // zgradimo povezan seznam
+zac = t[o].val;
+
+fun enqueue(Clen vrinjeni)
+{	
+	Clen next = t[zac]; // prvi element
+	while(next!=null)
+	{
+		Clen tmp = next;
+		next = tmp.next;
+		if(vrinjeni.val>tmo.val)
+		{
+		tmp.next = vrinjeni.val;
+		vrinjeni.next= next;         //Vrinemo element in popravimo povezave na sosednja elementa
+		}
+	}
+} // O(n)
+
+fun dequeue()
+{
+	Clen last = t.last;
+	Clen lastlast = last.prev;
+	lastlast.next=null;   //vzamemo zadnji element in naslednjemu zadnjemu elementu damo na konec null;
+	return last;
+} O(1)
