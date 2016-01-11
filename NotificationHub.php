@@ -95,8 +95,8 @@ $toast = '
 		<tile> 
 <visual version="2"> 
 <binding template="TileSquare150x150Text02" fallback="TileSquareText02"> 
-<text id="1">Text Field 1 (larger text)</text> 
-<text id="2">Text Field 2</text> 
+<text id="1">Trenutni nivo(larger text)</text> 
+<text id="2">192 cm</text> 
 </binding> 
 </visual> 
 </tile>';
