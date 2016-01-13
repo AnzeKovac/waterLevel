@@ -20,6 +20,15 @@ else
 	$range = true;
 }
 
+if(!isset($_POST["type"]))
+{
+	$type= false;
+}
+else
+{
+	$type = true;
+}
+
 $counter = 1;
 
 if(!$range)
@@ -33,8 +42,17 @@ if(!$range)
 		$str = rtrim($datetime);
 		if(($counter>$POSTctr) or $POSTctr==0)
 		{
-			$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
-	   		array_push($json, $tmpArray);
+			if($type)
+			{
+					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[1]);
+	   			    array_push($json, $tmpArray);
+			}
+			else
+			{
+				$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
+	   			array_push($json, $tmpArray);
+			}
+			
 		}
 	    $ctr++;
 	    $counter++;
@@ -55,8 +73,16 @@ else
 		$yesterday= strtotime('-1 day', $today);
 		if($measureTS>$yesterday)
 		{
-			$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
-	   		array_push($json, $tmpArray);
+			if($type)
+			{
+					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[1]);
+	   			    array_push($json, $tmpArray);
+			}
+			else
+			{
+				$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
+	   			array_push($json, $tmpArray);
+			}
 		}
 	    $ctr++;
 	    $counter++;
