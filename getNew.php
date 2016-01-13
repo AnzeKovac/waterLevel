@@ -44,7 +44,7 @@ if(!$range)
 		{
 			if($type)
 			{
-					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[1]);
+					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[2]);
 	   			    array_push($json, $tmpArray);
 			}
 			else
@@ -75,7 +75,7 @@ else
 		{
 			if($type)
 			{
-					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[1]);
+					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[2]);
 	   			    array_push($json, $tmpArray);
 			}
 			else
