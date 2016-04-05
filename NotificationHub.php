@@ -96,8 +96,8 @@ $toast = '
     	<visual>
         <binding template="ToastImageAndText02">
             <image id="1" src="image1" alt="image1"/>
-            <text id="1">headlineText</text>
-            <text id="2">bodyText</text>
+            <text id="1">Dodana nova meritev!</text>
+            <text id="2">100, 200 ,300</text>
         </binding>  
     </visual>
 </toast>';
