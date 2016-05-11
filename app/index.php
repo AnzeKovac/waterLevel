@@ -41,7 +41,7 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo"><span>Vodo</span>mer</a>
+            <a href="index.php" class="logo"><span>Vodo</span>mer</a>
             <!--logo end-->
 
             
@@ -56,24 +56,11 @@
               <ul class="sidebar-menu">                
                   <li>
                       <a class="" href="#">
-                          <i class="icon_piechart"></i>
-                          <span>Graf(i)</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="" href="#">
                           <i class="icon_genius"></i>
                           <span>Statistika</span>
                       </a>
                   </li>
-                  <li>
-                      <a class="" href="#">
-                          <i class="icon_info"></i>
-                          <span>Ta meni še ne deluje. Važn d srce dela :D</span>
-                      </a>
-                  </li>
-               
-                  
+
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -85,7 +72,98 @@
           <section class="wrapper">
               <!-- page start-->
               <div class="row">
-                  <div class="col-sm-6">
+    			
+    			<!-- KODA ZA MERITEVEEEE-->
+    			<?php
+                    $file = fopen("meritve.txt", "r");     
+                    $meritve = array();
+                    while(!feof($file))
+                    {
+                        $line = fgets($file);
+                        $tmp = explode("#",$line);
+                        $meritve[]=$tmp;            
+                    }
+
+                    $meritve = array_reverse($meritve);
+                    $ctr = count($meritve);
+                    fclose($file);
+                 ?>
+                  <div class="col-lg-6">
+                      <section class="panel">                        
+                        <header class="panel-heading">
+                             Podatki
+                          </header>
+                      <div class="panel-body">
+                        <?php
+                          $file = fopen("meritve.txt", "r");
+                          $line = fgets($file);
+                          $tmp = explode("#",$line);
+
+                          ?>
+                        <div class="panel panel-info">
+                          <div class="panel-heading">Zadnji izmerjen nivo: <b><?php echo($meritve[0][0]);?></b></div>
+                          <div class="panel-content">
+                          <?php
+                          echo("<b>".$meritve[0][0]."</b> izmerjeno ob: ".$meritve[0][3]);
+                          fclose($file);
+                          ?></div>
+                        </div> 
+
+                        <?php
+                             $file = fopen("meritve.txt", "r");
+                                $min = 9999;
+                                $ts = "";
+                                $time = $meritve[0][2];
+                                while(!feof($file)){
+                                    $line = fgets($file);
+                                    $podatki = explode("#",$line);
+                                    $nivo = $podatki[0];
+                                    $cas = $podatki[2];
+                                    $datum = $podatki[3];
+
+                                    if (($nivo<$min) && ($cas>$time-86400))
+                                    {
+                                        $min = $nivo;
+                                        $ts = $cas;
+                                        $date = $datum;
+                                    }
+                                } 
+                        ?>       
+                        <div class="panel panel-info">
+                          <div class="panel-heading">Najnižji nivo v zadnjih 24h: <b><?php echo($min);?></b></div>
+                          <div class="panel-content">
+                          <?php
+                                echo("Najnižja vrednost: <b>".$min."</b> je bila izmerjena ob: ".$date);
+                                fclose($file);
+                          ?>
+                          </div>
+                        </div>
+                        <?php
+                          $percent = intval(($meritve[0][1]/4.8)*100);
+                          if ($percent>100){
+                            $percent=100;
+                          }
+                          elseif ($percent<0) {
+                              $percent=0;
+                          }
+                          $str = "width: ".$percent."%;";
+                          ?> 
+                        <div class="panel panel-info">
+                          <div class="panel-heading">Stanje baterije: <b><?php echo($percent);?></b>%</div>
+                          <div class="panel-content">
+                          
+                          Napetost baterije: <b><?php echo($meritve[0][1]);?></b>V
+                              <div class="progress progress-xs">
+                                  <div class="progress-bar" role="progressbar" aria-valuenow=<?php echo($percent);?> aria-valuemin="0" aria-valuemax="100" style="<?php echo("$str");?>">
+                                      <span class="sr-only">10% Complete</span>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </section>
+             	 </div>
+
+             	  <div class="col-sm-6">
                       <section class="panel">
                           <header class="panel-heading">
                               Meritve
@@ -102,106 +180,23 @@
                               <tbody>
                               <tr>
                               <?php
-                                $file = fopen("meritve.txt", "r");
-                                $ctr = 1;
-                                while(!feof($file)){
-                                    $line = fgets($file);
-                                    $tmp = explode("#",$line);
-                                    date_default_timezone_set('Europe/Ljubljana');
-                                    $date = new DateTime('@' . $tmp[2]);
-                                    $datetime = date_format($date, 'd.M Y H:i:s');
+                               	foreach ($meritve as $tmp)
+                               	{  
                                     echo("<tr>");
                                     echo("<td>$ctr</td>");
                                     echo("<td>$tmp[0]</td>");
                                     echo("<td>$tmp[1]V</td>");
-                                    echo("<td>$datetime</td>");
+				    				echo("<td>$tmp[3]</td>");
                                     echo("</tr>");
-                                    $ctr++;
+                                    $ctr--;
                                 }
-                                fclose($file);
-
+                                
 
                               ?>
                               </tbody>
                           </table>
                       </section>
                   </div>
-                  <div class="col-lg-6">
-                      <section class="panel">                        
-                        <header class="panel-heading">
-                             Opažanja
-                          </header>
-                      <div class="panel-body">
-                        <?php
-                          $file = fopen("meritve.txt", "r");
-                          $line = fgets($file);
-                          $tmp = explode("#",$line);
-                          date_default_timezone_set('Europe/Ljubljana');
-                          $date = new DateTime('@' . $tmp[2]);
-                          $datum = date_format($date, 'd.m Y');
-                          $time = date_format($date, 'H:i:s');
-
-                          ?>
-                        <div class="panel panel-info">
-                          <div class="panel-heading">Zadnji izmerjen nivo: <b><?php echo($tmp[0]);?></b>.</div>
-                          <div class="panel-content">
-                          <?php
-                          echo("<b>".$tmp[0]."</b> izmerjeno ".$datum. " ob ".$time.".");
-                          fclose($file);
-                          ?></div>
-                        </div> 
-
-                        <?php
-                             $file = fopen("meritve.txt", "r");
-                                $min = 9999;
-                                $ts = "";
-
-                                while(!feof($file)){
-                                    $line = fgets($file);
-                                    $temp = explode("#",$line);
-                                    date_default_timezone_set('Europe/Ljubljana');
-                                    $datum = date_format($date, 'd.m Y');
-                                    $time = date_format($date, 'H:i:s');
-
-                                    if ($temp[0]<$min) {
-                                        $min = $temp[0];
-                                        $ts = $datum." ob ".$time;
-                                    }
-                                } 
-                        ?>       
-                        <div class="panel panel-info">
-                          <div class="panel-heading">Najnižji nivo: <b><?php echo($min);?></b>.</div>
-                          <div class="panel-content">
-                          <?php
-                                echo("Najnižja vrednost: <b>".$min."</b> je bila izmerjena ".$ts.".");
-                                fclose($file);
-                          ?>
-                          </div>
-                        </div>
-                        <?php
-                          $percent = intval(($tmp[1]/12)*100);
-                          if ($percent>100){
-                            $percent=100;
-                          }
-                          elseif ($percent<0) {
-                              $percent=0;
-                          }
-                          $str = "width: ".$percent."%;";
-                          ?> 
-                        <div class="panel panel-info">
-                          <div class="panel-heading">Stanje baterije: <b><?php echo($percent);?></b>%.</div>
-                          <div class="panel-content">
-                          
-                          Napetost baterije: <b><?php echo($tmp[1]);?></b>V.
-                              <div class="progress progress-xs">
-                                  <div class="progress-bar" role="progressbar" aria-valuenow=<?php echo($percent);?> aria-valuemin="0" aria-valuemax="100" style="<?php echo("$str");?>">
-                                      <span class="sr-only">10% Complete</span>
-                                  </div>
-                              </div>
-                          </div>
-                        </div>
-                      </section>
-              </div>
               
               
               
@@ -217,7 +212,7 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- nicescroll -->
     <script src="js/jquery.scrollTo.min.js"></script>
-    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+    
     <!--custome script for all page-->
     <script src="js/scripts.js"></script>
 
