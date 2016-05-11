@@ -1,4 +1,4 @@
- <?php
+<?php
 $file = fopen("meritve.txt", "r");
 $ctr = 1;
 $json = array();
@@ -10,7 +10,6 @@ else
 {
 	$POSTctr = $_POST["ctr"];
 }
-
 if(!isset($_POST["range"]))
 {
 	$range= false;
@@ -19,7 +18,6 @@ else
 {
 	$range = true;
 }
-
 if(!isset($_POST["type"]))
 {
 	$type= false;
@@ -28,9 +26,7 @@ else
 {
 	$type = true;
 }
-
 $counter = 1;
-
 if(!$range)
 {
 	while(!feof($file))
@@ -42,8 +38,6 @@ if(!$range)
 		$str = rtrim($datetime);
 		if(($counter>$POSTctr) or $POSTctr==0)
 		{
-			$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
-	   		array_push($json, $tmpArray);
 			if($type)
 			{
 					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[2]);
@@ -54,6 +48,7 @@ if(!$range)
 				$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
 	   			array_push($json, $tmpArray);
 			}
+			
 		}
 	    $ctr++;
 	    $counter++;
@@ -74,8 +69,6 @@ else
 		$yesterday= strtotime('-1 day', $today);
 		if($measureTS>$yesterday)
 		{
-			$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$str);
-	   		array_push($json, $tmpArray);
 			if($type)
 			{
 					$tmpArray = array('waterLevel'=>$tmp[0],'battery'=>$tmp[1],'datetime'=>$tmp[2]);
@@ -91,9 +84,7 @@ else
 	    $counter++;
 	}
 }
-
 fclose($file);
 $out = array('Measurements'=>$json);
 echo json_encode($out, JSON_PRETTY_PRINT);
-
 ?>
