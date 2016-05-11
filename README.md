@@ -5,6 +5,6 @@ Data is stored in meritve.txt.
 
 get*.php files are serving data.
 
-!Linked to Azure Deployment Slot!
-reservoirlevel.azurewebsites.net
+Repo is linked to Azure Deployment Slot!
+http://reservoirlevel.azurewebsites.net
 
